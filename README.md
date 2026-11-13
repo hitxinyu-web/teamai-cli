@@ -142,6 +142,8 @@ Three layers of capability, built on Git:
     <tr><td>JoyCode</td><td align="center">✓</td><td align="center">✓¹</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">—</td><td align="center">✓</td><td align="center">✓</td><td align="center">—</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">—</td></tr>
     <tr><td>Muse Code</td><td align="center">✓</td><td align="center">✓¹</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">—</td></tr>
     <tr><td>Antigravity</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td></tr>
+    <tr><td>Grok Bot</td><td align="center">✓⁴</td><td align="center">—</td><td align="center">—</td><td align="center">—</td><td align="center">—</td><td align="center">—</td><td align="center">✓⁴</td><td align="center">—</td><td align="center">—</td><td align="center">✓⁴</td><td align="center">—</td><td align="center">—</td><td align="center">—</td><td align="center">—</td></tr>
+    <tr><td>Grok CLI</td><td align="center">✓</td><td align="center">✓¹</td><td align="center">✓</td><td align="center">—</td><td align="center">✓</td><td align="center">—</td><td align="center">✓</td><td align="center">—</td><td align="center">—</td><td align="center">✓</td><td align="center">✓</td><td align="center">—</td><td align="center">—</td><td align="center">—</td></tr>
   </tbody>
 </table>
 
@@ -150,6 +152,10 @@ Three layers of capability, built on Git:
 <sup>✓²</sup> Env reaches it only through `teamai env exec`.
 
 <sup>✓³</sup> Only workflows run with the skill driver are scored.
+
+<sup>✓⁴</sup> Grok Bot has no hook mechanism. TeamAI writes a skill that tells the bot when to run `teamai recall`, vote, and contribute.
+
+Grok CLI hooks go in `~/.grok/hooks/teamai.json`. Grok CLI also reads Cursor and Claude hook files; teamai skips those copies in a Grok CLI session so handlers do not run twice.
 
 ## Learn More
 

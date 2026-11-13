@@ -58,6 +58,8 @@ const LABELS: ReadonlyMap<string, ToolId> = new Map(Object.entries({
   JoyCode: 'joycode',
   'Muse Code': 'muse',
   Antigravity: 'agy',
+  'Grok Bot': 'grokbot',
+  'Grok CLI': 'grok',
 } satisfies Record<string, ToolId>));
 
 /** Internal builds the README leaves out. */

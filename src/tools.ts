@@ -487,6 +487,8 @@ export const TOOL_IDS = [
   'opencode',
   'muse',
   'agy',
+  'grokbot',
+  'grok',
 ] as const;
 
 /** A built-in tool (`TOOL_IDS`). */
@@ -1767,6 +1769,90 @@ export const TOOLS = {
       aiBackend: '✓v',
       sessionJudge: { cell: '✓t', note: 'invoke_subagent starts a fresh conversation that gets only its prompt (agy 1.4.8); no session variable, so the session names its tool with --tools; not run' },
       agentHooks: { cell: '✓t', note: 'runs from teamai\'s team-hook bridge, which can block a tool call; the dispatcher hands it a Claude payload' },
+    },
+  },
+  // Grok Bot has no hook mechanism. Skills live in $HOME/agent-data/workflows
+  // (or TEAMAI_GROKBOT_SKILLS_DIR): one SKILL.md per kebab-slug folder, shared
+  // by every bot on the machine. teamai writes an instruction-driven skill
+  // there so a bot runs recall, feedback and contribute itself.
+  grokbot: {
+    home: { dir: 'agent-data/workflows', moves: { by: [{ kind: 'env', name: 'TEAMAI_GROKBOT_SKILLS_DIR', evidence: 'assumed' }] } },
+    installedBy: 'home',
+    skillLoad: 'unknown',
+    skills: { user: [{ base: 'home', path: 'agent-data/workflows', evidence: 'verified' }], project: 'unknown' },
+    rules: NONE,
+    folderReach: { reach: 'none', evidence: 'assumed' },
+    blocks: NONE,
+    agents: NONE,
+    mcp: NONE,
+    hooks: { user: 'none', self: 'none', subagentStop: false, stopReply: false, shell: 'system', teamHooks: 'home', needsBundle: false },
+    sessions: 'none',
+    launch: 'none',
+    autoCompact: 'none',
+    skillAllowedTools: false,
+    searchEvidence: false,
+    projectFromHome: false,
+    legacyAgentMd: false,
+    tokens: 'none',
+    features: {
+      env: '?',
+      workflows: '—t',
+      unattended: '—t',
+      recall: '✓t',
+      stats: '—t',
+      tokens: '—t',
+      aiBackend: '—t',
+      sessionJudge: '—t',
+      agentHooks: '—t',
+    },
+  },
+  // Grok CLI (https://docs.x.ai/build/features/hooks): personal hooks are
+  // Claude-shaped JSON in ~/.grok/hooks/*.json. teamai writes a dedicated
+  // ~/.grok/hooks/teamai.json so other files in that directory stay the user's.
+  // Grok CLI also reads ~/.cursor/hooks.json and ~/.claude/settings.json;
+  // hook-dispatch skips those copies when GROK_SESSION_ID or GROK_HOOK_EVENT
+  // is set and the grok teamai hook file is installed, so a session does not
+  // run the same handlers twice. Stop stdout is ignored (passive events).
+  grok: {
+    home: { dir: '.grok' },
+    installedBy: 'home',
+    skillLoad: { calls: [] },
+    skills: { user: [{ base: 'home', path: '.grok/skills', evidence: 'docs' }], project: 'unknown' },
+    rules: { user: { channel: 'inline', label: 'Grok CLI AGENTS.md' }, project: 'none' },
+    blocks: {
+      user: { channel: 'file', file: { in: 'home', path: '.grok/AGENTS.md' }, reads: [{ base: 'home', path: '.grok/AGENTS.md', evidence: 'docs' }] },
+      project: 'none',
+    },
+    agents: NONE,
+    mcp: NONE,
+    hooks: {
+      user: { channel: 'settings', format: 'claude', reads: [{ base: 'home', path: '.grok/hooks/teamai.json', evidence: 'docs' }] },
+      self: 'user',
+      subagentStop: false,
+      stopReply: false,
+      shell: 'system',
+      teamHooks: 'home',
+      needsBundle: false,
+    },
+    sessions: 'none',
+    launch: 'none',
+    autoCompact: 'none',
+    skillAllowedTools: false,
+    searchEvidence: false,
+    // Home AGENTS.md and ~/.grok/hooks only; a project has no Grok CLI instruction channel.
+    projectFromHome: false,
+    legacyAgentMd: false,
+    tokens: 'none',
+    features: {
+      env: '?',
+      workflows: '—t',
+      unattended: '—t',
+      recall: '✓d',
+      stats: '✓d',
+      tokens: '—t',
+      aiBackend: '—t',
+      sessionJudge: '—t',
+      agentHooks: '—t',
     },
   },
 } as const satisfies Record<ToolId, ToolDescriptor>;

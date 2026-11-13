@@ -20,6 +20,7 @@ import { COPILOT_TOOL_ID, HookPayloadSchema, type HookPayload } from '../types.j
 // Pi's bash tool sets PI_SESSION_ID, the session TeamAI's Pi extension sends. OMP sets none, so a
 // recall from its shell settles only through its tool result's claim.
 // Muse Code's shell tool sets MUSE_SESSION_ID, the session_id its hooks carry.
+// Grok CLI sets GROK_SESSION_ID on hook processes and in the session.
 export const AGENT_SESSION_ENV = [
     'CLAUDE_CODE_SESSION_ID',    // Claude Code
     'CODEX_SESSION_ID',          // Codex >= 0.148
@@ -31,6 +32,7 @@ export const AGENT_SESSION_ENV = [
     'TEAMAI_AGENT_SESSION_ID',   // OpenCode V1, through TeamAI's plugin
     'PI_SESSION_ID',             // Pi
     'MUSE_SESSION_ID',           // Muse Code
+    'GROK_SESSION_ID',           // Grok CLI
 ] as const;
 
 /**
@@ -66,6 +68,7 @@ const AGENT_FAMILY: Record<typeof AGENT_SESSION_ENV[number], string> = {
     TEAMAI_AGENT_SESSION_ID: 'opencode',
     PI_SESSION_ID: 'pi',
     MUSE_SESSION_ID: 'muse',
+    GROK_SESSION_ID: 'grok',
 };
 
 export interface EnvAgentSession {

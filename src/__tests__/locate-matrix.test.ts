@@ -451,6 +451,13 @@ const ROWS: readonly FilesRow[] = [
     reads: 'unknown',
     source: 'a recorded state dir wins over the shell env',
   },
+  {
+    tool: 'grokbot', scope: 'user', env: { TEAMAI_GROKBOT_SKILLS_DIR: '/moved' },
+    writes: ['/moved'],
+    existingDirs: ['/moved'], installed: { probe: '/moved', met: true },
+    reads: [{ at: '/moved', when: 'always' }],
+    source: 'Grok Bot skills are $HOME/agent-data/workflows, or TEAMAI_GROKBOT_SKILLS_DIR when set',
+  },
 ];
 
 describeLocateMatrix('skills', ROWS);

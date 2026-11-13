@@ -142,6 +142,8 @@ Git を基盤に、3 層の能力を構築します：
     <tr><td>JoyCode</td><td align="center">✓</td><td align="center">✓¹</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">—</td><td align="center">✓</td><td align="center">✓</td><td align="center">—</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">—</td></tr>
     <tr><td>Muse Code</td><td align="center">✓</td><td align="center">✓¹</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">—</td></tr>
     <tr><td>Antigravity</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td></tr>
+    <tr><td>Grok Bot</td><td align="center">✓⁴</td><td align="center">—</td><td align="center">—</td><td align="center">—</td><td align="center">—</td><td align="center">—</td><td align="center">✓⁴</td><td align="center">—</td><td align="center">—</td><td align="center">✓⁴</td><td align="center">—</td><td align="center">—</td><td align="center">—</td><td align="center">—</td></tr>
+    <tr><td>Grok CLI</td><td align="center">✓</td><td align="center">✓¹</td><td align="center">✓</td><td align="center">—</td><td align="center">✓</td><td align="center">—</td><td align="center">✓</td><td align="center">—</td><td align="center">—</td><td align="center">✓</td><td align="center">✓</td><td align="center">—</td><td align="center">—</td><td align="center">—</td></tr>
   </tbody>
 </table>
 
@@ -150,6 +152,10 @@ Git を基盤に、3 層の能力を構築します：
 <sup>✓²</sup> env は `teamai env exec` 経由でのみ渡されます。
 
 <sup>✓³</sup> skill driver で実行したワークフローのみ評価されます。
+
+<sup>✓⁴</sup> Grok Bot にはフック機構がありません。TeamAI は、ボットがいつ `teamai recall`・投票・学習の投稿を行うかを指示するスキルを書き込みます。
+
+Grok CLI のフックは `~/.grok/hooks/teamai.json` に置きます。Grok CLI は Cursor と Claude のフックファイルも読みます。TeamAI の Grok フックが入っている場合、Grok CLI セッションではそれらをスキップし、二重実行を避けます。
 
 ## 詳細情報
 

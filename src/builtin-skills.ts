@@ -18,6 +18,7 @@ import { packagedSkillRoots } from './skill-content.js';
 import { PACKAGED_SKILL_DIGESTS } from './packaged-skill-digests.js';
 import { keepsTrackedCopy } from './resources/delivered-copies.js';
 import { generatedSkillAt } from './workflow/discovery/generated-marker.js';
+import { grokbotTeamaiSkillMarkdown } from './grokbot-skill.js';
 import type { DeliveryRecorder } from './git-exclude-delivered.js';
 
 // ─── Built-in skills deployment ──────────────────────────
@@ -122,6 +123,8 @@ export async function ownedSkillFiles(skillName: string, paths?: readonly string
     if (await pathExists(stubPath)) {
       const digests = owned.get('SKILL.md') ?? new Set<string>();
       digests.add(packagedSkillDigest(await fs.promises.readFile(stubPath)));
+
+      if (skillName === 'teamai') digests.add(packagedSkillDigest(Buffer.from(grokbotTeamaiSkillMarkdown())));
       owned.set('SKILL.md', digests);
     }
   }
@@ -667,7 +670,16 @@ export async function deployBuiltinSkills(
         // references it points at stay together, a working old skill rather
         // than an old skill whose references are gone.
         await fse.ensureDir(destDir);
-        await fse.copy(path.join(srcDir, 'SKILL.md'), path.join(destDir, 'SKILL.md'), { overwrite: true });
+
+        // Grok Bot has no hooks, so the packaged discovery stub is replaced by
+        // an instruction-driven skill that tells a bot when to recall, vote
+        // and contribute. Other tools still get the stub verbatim.
+        if (tool === 'grokbot' && skillName === 'teamai') {
+          await fs.promises.writeFile(path.join(destDir, 'SKILL.md'), grokbotTeamaiSkillMarkdown(), 'utf8');
+        } else {
+          await fse.copy(path.join(srcDir, 'SKILL.md'), path.join(destDir, 'SKILL.md'), { overwrite: true });
+        }
+
         // Releases before the discovery stub deployed this same directory with a
         // references/ tree beside SKILL.md, ~39 KB of pre-stub instructions the
         // new SKILL.md no longer points at. The files those releases wrote go —

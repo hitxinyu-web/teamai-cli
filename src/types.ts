@@ -752,6 +752,18 @@ export const DEFAULT_TOOL_PATHS = {
     mcpProject: '.agents/plugins/teamai/mcp_config.json',
     userScope: { skills: '.gemini/config/skills', rules: '.gemini/config/rules', agents: '.gemini/config/agents' },
   },
+  // Grok Bot reads skills from $HOME/agent-data/workflows/<slug>/SKILL.md (or
+  // TEAMAI_GROKBOT_SKILLS_DIR). It has no rules, agents, hooks or MCP files.
+  grokbot: { skills: 'agent-data/workflows' },
+  // Grok CLI: skills in ~/.grok/skills, team instructions in ~/.grok/AGENTS.md,
+  // hooks in a dedicated ~/.grok/hooks/teamai.json (Grok loads every *.json
+  // in that directory). Those files live only under the user home, so
+  // claudemd and settings are userScope; there is no project AGENTS.md or
+  // project hook file (#945).
+  grok: {
+    skills: '.grok/skills',
+    userScope: { claudemd: '.grok/AGENTS.md', settings: '.grok/hooks/teamai.json' },
+  },
 } satisfies Record<ToolId, z.infer<typeof ToolPathsSchema>>;
 
 export const TeamaiConfigBaseSchema = z.object({

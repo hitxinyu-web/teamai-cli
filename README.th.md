@@ -142,6 +142,8 @@ teamai init https://github.com/your-org/your-repo --scope user
     <tr><td>JoyCode</td><td align="center">✓</td><td align="center">✓¹</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">—</td><td align="center">✓</td><td align="center">✓</td><td align="center">—</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">—</td></tr>
     <tr><td>Muse Code</td><td align="center">✓</td><td align="center">✓¹</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">—</td></tr>
     <tr><td>Antigravity</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td></tr>
+    <tr><td>Grok Bot</td><td align="center">✓⁴</td><td align="center">—</td><td align="center">—</td><td align="center">—</td><td align="center">—</td><td align="center">—</td><td align="center">✓⁴</td><td align="center">—</td><td align="center">—</td><td align="center">✓⁴</td><td align="center">—</td><td align="center">—</td><td align="center">—</td><td align="center">—</td></tr>
+    <tr><td>Grok CLI</td><td align="center">✓</td><td align="center">✓¹</td><td align="center">✓</td><td align="center">—</td><td align="center">✓</td><td align="center">—</td><td align="center">✓</td><td align="center">—</td><td align="center">—</td><td align="center">✓</td><td align="center">✓</td><td align="center">—</td><td align="center">—</td><td align="center">—</td></tr>
   </tbody>
 </table>
 
@@ -150,6 +152,10 @@ teamai init https://github.com/your-org/your-repo --scope user
 <sup>✓²</sup> env ส่งถึงได้ผ่าน `teamai env exec` เท่านั้น
 
 <sup>✓³</sup> ให้คะแนนเฉพาะ workflow ที่รันด้วย skill driver
+
+<sup>✓⁴</sup> Grok Bot ไม่มี hook mechanism. TeamAI จะเขียนสกิลเพื่อบอกบอทว่าเมื่อใดควรรัน `teamai recall`, โหวต และส่งบทเรียน
+
+ฮุคของ Grok CLI อยู่ที่ `~/.grok/hooks/teamai.json`. Grok CLI อ่านไฟล์ฮุคของ Cursor และ Claude ด้วย; หากติดตั้งฮุค TeamAI ของ Grok แล้ว จะข้ามสำเนาเหล่านั้นในเซสชัน Grok CLI เพื่อไม่ให้รันซ้ำ
 
 ## เรียนรู้เพิ่มเติม
 

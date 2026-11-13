@@ -142,6 +142,8 @@ Git을 기반으로 세 층의 역량을 구축합니다:
     <tr><td>JoyCode</td><td align="center">✓</td><td align="center">✓¹</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">—</td><td align="center">✓</td><td align="center">✓</td><td align="center">—</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">—</td></tr>
     <tr><td>Muse Code</td><td align="center">✓</td><td align="center">✓¹</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">—</td></tr>
     <tr><td>Antigravity</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td></tr>
+    <tr><td>Grok Bot</td><td align="center">✓⁴</td><td align="center">—</td><td align="center">—</td><td align="center">—</td><td align="center">—</td><td align="center">—</td><td align="center">✓⁴</td><td align="center">—</td><td align="center">—</td><td align="center">✓⁴</td><td align="center">—</td><td align="center">—</td><td align="center">—</td><td align="center">—</td></tr>
+    <tr><td>Grok CLI</td><td align="center">✓</td><td align="center">✓¹</td><td align="center">✓</td><td align="center">—</td><td align="center">✓</td><td align="center">—</td><td align="center">✓</td><td align="center">—</td><td align="center">—</td><td align="center">✓</td><td align="center">✓</td><td align="center">—</td><td align="center">—</td><td align="center">—</td></tr>
   </tbody>
 </table>
 
@@ -150,6 +152,10 @@ Git을 기반으로 세 층의 역량을 구축합니다:
 <sup>✓²</sup> env는 `teamai env exec`를 통해서만 전달됩니다.
 
 <sup>✓³</sup> skill driver로 실행한 워크플로만 평가합니다.
+
+<sup>✓⁴</sup> Grok Bot에는 훅 메커니즘이 없습니다. TeamAI는 봇이 언제 `teamai recall`, 투표, 학습 기여를 수행할지 알려 주는 스킬을 씁니다.
+
+Grok CLI 훅은 `~/.grok/hooks/teamai.json`에 둡니다. Grok CLI는 Cursor와 Claude 훅 파일도 읽습니다. TeamAI Grok 훅이 설치되어 있으면 Grok CLI 세션에서는 그 복사본을 건너뛰어 중복 실행을 막습니다.
 
 ## 자세히 알아보기
 

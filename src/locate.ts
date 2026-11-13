@@ -701,10 +701,30 @@ async function gatesOf(tool: string, install: Install, host: Host, roots: Roots 
   return installed === null ? [selected] : [selected, installed];
 }
 
+/** Whether `name` is an executable on `host`'s PATH. Used so Grok CLI is detected when `grok` is installed but ~/.grok has not been created yet. */
+function commandOnPath(name: string, host: Host): boolean {
+  const pathVar = host.env.PATH ?? host.env.Path ?? '';
+
+  return pathVar.split(host.path.delimiter).some((dir) => {
+    if (!dir) return false;
+
+    return host.existsNow(host.path.join(dir, name))
+      || (host.platform === 'win32' && (host.existsNow(host.path.join(dir, `${name}.cmd`)) || host.existsNow(host.path.join(dir, `${name}.exe`))));
+  });
+}
+
 async function installedGateOf(tool: string, install: Install, host: Host, roots: Roots, resource?: Resource): Promise<Gate | null> {
   const { home, join } = roots;
   const enabled = install.agents.enabledAgents?.includes(tool) === true;
   const probe = async (dir: string, met?: boolean): Promise<Gate> => ({ kind: 'installed', probe: dir, met: met ?? await host.exists(dir) });
+
+  if (tool === 'grok' && home) {
+    if (await host.exists(home.dir)) return probe(home.dir, true);
+
+    if (commandOnPath('grok', host)) return probe(home.dir, true);
+
+    return probe(home.dir, false);
+  }
 
   if (tool === 'openclaw') {
     const workspace = await openclawWorkspaceOf(roots, host);

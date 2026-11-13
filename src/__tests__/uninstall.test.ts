@@ -1208,7 +1208,7 @@ describe('uninstall', () => {
 
   // Every tool whose hooks TOOLS puts in a machine-wide adapter, and the user hooks Codex and Copilot run in every project.
   const machineWide = [
-    ...Object.entries(TOOLS).flatMap(([tool, { hooks }]) => hooks.user !== 'unknown' && hooks.user.channel === 'adapter' ? [{ tool, adapter: hooks.user.adapter }] : []),
+    ...Object.entries(TOOLS).flatMap(([tool, { hooks }]) => hooks.user !== 'unknown' && hooks.user !== 'none' && hooks.user.channel === 'adapter' ? [{ tool, adapter: hooks.user.adapter }] : []),
     { tool: 'codex', adapter: 'codex' as const },
     { tool: 'copilot', adapter: 'copilot' as const },
   ];

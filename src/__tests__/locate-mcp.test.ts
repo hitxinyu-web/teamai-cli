@@ -833,6 +833,34 @@ const COMPLETE_ROWS: readonly MatrixRow[] = [
     reads: [{ at: '~/.cursor/mcp.json', key: ['mcpServers'], when: 'always' }],
     source: 'Issue #1221 installation gate; no MCP write to an absent tool',
   },
+  {
+    tool: 'grokbot', scope: 'user',
+    channel: 'none',
+    existingDirs: [],
+    installed: { probe: '~/agent-data/workflows', met: false },
+    source: 'Grok Bot has no MCP channel; the install probe is $HOME/agent-data/workflows (or TEAMAI_GROKBOT_SKILLS_DIR)',
+  },
+  {
+    tool: 'grokbot', scope: 'project',
+    channel: 'none',
+    existingDirs: [],
+    installed: { probe: '~/agent-data/workflows', met: false },
+    source: 'Grok Bot has no MCP channel; install is the user skills dir in either scope',
+  },
+  {
+    tool: 'grok', scope: 'user',
+    channel: 'none',
+    existingDirs: [],
+    installed: { probe: '~/.grok', met: false },
+    source: 'Grok CLI has no MCP channel; the install probe is ~/.grok, or grok on PATH',
+  },
+  {
+    tool: 'grok', scope: 'project',
+    channel: 'none',
+    existingDirs: [],
+    installed: { probe: '~/.grok', met: false },
+    source: 'Grok CLI has no MCP channel; install is ~/.grok (or grok on PATH) in either scope',
+  },
 ];
 
 const ALL_ROWS = [...ROWS, ...COMPLETE_ROWS];

@@ -601,7 +601,7 @@ export function recognisedBuiltinHookDefs(tool: string): HookDef[] {
 function renderBuiltinDefs(tool: string, specs: BuiltinHookSpec[], form: BuiltinHookForm): HookDef[] {
   // ZCode renders per-event timeouts from the ZCODE_TIMEOUT_MS table in its own
   // writer (toZcodeEntry), so def.timeout stays unset for it.
-  const withTimeout = tool === 'cursor' || tool === 'copilot' || tool === 'workbuddy' || tool === 'codebuddy' || tool === 'joycode' || isCodexTool(tool);
+  const withTimeout = tool === 'cursor' || tool === 'copilot' || tool === 'workbuddy' || tool === 'codebuddy' || tool === 'joycode' || tool === 'grok' || isCodexTool(tool);
 
   const buildCommand = tool === 'zcode'
     ? getRawDispatchCommand

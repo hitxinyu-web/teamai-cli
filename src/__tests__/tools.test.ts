@@ -73,7 +73,7 @@ describe('TOOLS home', () => {
 
   it('holds every user-scope path of the tool, apart from the listed exceptions', () => {
     const outside = TOOL_IDS.flatMap((tool) => userPaths(tool)
-      .filter(([, relPath]) => !relPath.startsWith(`${TOOLS[tool].home.dir}/`))
+      .filter(([, relPath]) => relPath !== TOOLS[tool].home.dir && !relPath.startsWith(`${TOOLS[tool].home.dir}/`))
       .map(([field, relPath]) => ({ key: `${tool}.${field}`, relPath })));
     expect(outside.map(({ key }) => key).sort()).toEqual(Object.keys(OUTSIDE_HOME).sort());
   });
@@ -86,7 +86,9 @@ describe('TOOLS skillLoad', () => {
   function hasWildcardPostToolUse(tool: ToolId): boolean {
     const paths = DEFAULT_TOOL_PATHS[tool];
     // dsh-hooks.ts renders builtinHookDefs('dsh') into dsh's Claude-format bridge file.
-    const settingsDriven = tool === 'dsh' || 'settings' in paths || 'hooks' in paths;
+    // Settings may live only under userScope (Grok CLI's ~/.grok/hooks/teamai.json).
+    const settingsDriven = tool === 'dsh' || 'settings' in paths || 'hooks' in paths
+      || ('userScope' in paths && paths.userScope !== undefined && 'settings' in paths.userScope);
     return installedBuiltinHookDefs(tool, settingsDriven)
       .some((def) => def.key === WILDCARD_POST_TOOL_USE && def.matcher === '*');
   }

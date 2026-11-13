@@ -135,6 +135,8 @@ const DETECTORS: Record<ToolId, VersionDetector | null> = {
   opencode: null,
   muse: detectMuseVersion,
   agy: detectAgyVersion,
+  grokbot: null,
+  grok: null,
 };
 
 /** The detector for `agentType`: a tool's, or the CodeBuddy IDE's (`codebuddy-ide`). */

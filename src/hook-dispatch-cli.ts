@@ -33,6 +33,7 @@ import { claimCopilotHookEvent } from './copilot-hook-claim.js';
 import { launchedBy, LAUNCH_PAYLOAD_KEY, launchEnv, readLaunch, SESSION_RUN_PAYLOAD_KEY, sessionRun } from './launch-context.js';
 import { isHttpEnrolled, recordLoginEnrolment } from './hook-fast-path.js';
 import { channelsOf } from './tools.js';
+import { cursorOrClaudeHookRunsInGrokCli, grokHookPayload } from './grok-hook-io.js';
 import { readStdin, takeHandedOffHookStdin } from './utils/hook-stdin.js';
 import { isSelfMode } from './types.js';
 
@@ -496,6 +497,20 @@ async function runHookDispatch(
     return;
   }
 
+  if (cursorOrClaudeHookRunsInGrokCli(tool, process.env)) {
+    log.debug('hook-dispatch: skipping cursor/claude hooks because Grok CLI has its own teamai hooks');
+
+    return;
+  }
+
+  const hooks = channelsOf(tool.toLowerCase()).hooks;
+
+  if (hooks.user === 'none' && hooks.self === 'none') {
+    log.debug(`hook-dispatch: ${tool} has no hook channel; skipping`);
+
+    return;
+  }
+
   // A git hook (see git-hook.ts) prints nothing, and runs with the business
   // repo exported in GIT_DIR and friends, which every git child would inherit.
   const fromGit = tool === GIT_HOOK_TOOL;
@@ -519,7 +534,9 @@ async function runHookDispatch(
     if (process.platform !== 'win32' && channelsOf(tool).hooks.loginDeferrable) recordLoginEnrolment(raw, process.env);
     // Antigravity CLI speaks its own hook payload; the detached child gets it already translated.
     const agy = tool === 'agy' && !stdinFile ? await import('./agy-hook-io.js') : undefined;
-    const stdin = agy ? agy.agyHookPayload(event, parsed) : parsed;
+
+    const stdin = tool === 'grok' && !stdinFile ? grokHookPayload(event, parsed)
+      : agy ? agy.agyHookPayload(event, parsed) : parsed;
 
     if (stdin === null) return;
     // What the team's hooks read, before the dispatcher adds its own keys.
